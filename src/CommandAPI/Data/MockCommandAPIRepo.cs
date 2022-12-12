@@ -20,12 +20,12 @@ namespace CommandAPI.Data
             var commands = new List<Command>
             {
                 new Command{
-                    Id=0, HowTo="How to genrate a migration", 
-                    CommandLine="dotnet ef migrations add <Name of Migration>", 
+                    Id=0, HowTo="Learning to make API using C# .NET Core", 
+                    CommandLine="It's going well for im done with chapter 6", 
                     Platform=".Net Core EF"},
                 new Command{
-                    Id=1, HowTo="Run Migrations", 
-                    CommandLine="dotnet ef database update", 
+                    Id=1, HowTo="Starting on chapter 7", 
+                    CommandLine="chapter 7 is about database or something like that", 
                     Platform=".Net Core EF"},
                 new Command{
                     Id=2, HowTo="List active migrations", 
