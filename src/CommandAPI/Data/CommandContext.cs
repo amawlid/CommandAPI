@@ -11,6 +11,6 @@ namespace CommandAPI.Data
 
         }
 
-        public DbSet<Command> commandItems {get ; set;}
+        public DbSet<Command> CommandItems {get ; set;}
     }
-}
+} 
