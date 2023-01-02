@@ -26,7 +26,7 @@ namespace CommandAPI.Controllers
         {
             var CommandItems = _repository.GetAllCommands();
 
-            return Ok(_mapper.Map<CommandReadDto>(CommandItems));
+            return Ok(_mapper.Map<IEnumerable<CommandReadDto>>(CommandItems));
         }
 
         [HttpGet("{id}")]
@@ -41,4 +41,4 @@ namespace CommandAPI.Controllers
         }
 
     }
-}
+ }
