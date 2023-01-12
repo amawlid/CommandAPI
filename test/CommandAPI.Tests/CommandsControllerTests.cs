@@ -39,7 +39,7 @@ namespace CommandAPI.ControllerTests
             realProfile = null;
         }
 
-        //Testing 200 OK HTTP Response when DB Empty
+        //Test 1.1 200 OK HTTP Response when DB Empty
         [Fact]
         public void GetCommandItem_ReturnsZeroItems_whenDBIsempty()
         {
@@ -64,8 +64,8 @@ namespace CommandAPI.ControllerTests
             Assert.IsType<OkObjectResult>(result.Result);
         }
 
-        // Testing 200 OK HTTP Response when DB Empty
-        //Return http response 200
+        // Test 1.1 200 OK HTTP Response when DB Empty
+        //Test 1.2
         [Fact]
         public void GetAllCommands_Return200OK_WhenDBHasOneResource()
         {
@@ -82,8 +82,8 @@ namespace CommandAPI.ControllerTests
             Assert.IsType<OkObjectResult>(result.Result);
         }
 
-        //Return http response 200
-        //Check correct Object Type Returned
+        //Test 1.2
+        //Test 1.3 Check correct Object Type Returned
         [Fact]
         public void GetAllCommands_ReturnCorrectType_WhenDBHasOneResource()
         {
@@ -100,8 +100,8 @@ namespace CommandAPI.ControllerTests
             Assert.IsType<ActionResult<IEnumerable<CommandReadDto>>> (result);
         }
 
-        //Check correct Object Type Returned
-        //Check 404 Not Found HTTP Response
+        //Test 1.3 Check correct Object Type Returned
+        //Test 1.4 Check 404 Not Found HTTP Response
         [Fact]
         public void GetCommandById_Returns404NotFound_WhenNonExistentIdProvided()
         {
@@ -116,7 +116,98 @@ namespace CommandAPI.ControllerTests
             Assert.IsType<NotFoundResult>(result.Result);
         }
 
-        //Check 404 Not Found HTTP Response
+        //Test 1.4 Check 404 Not Found HTTP Response
+        //Check 200 OK HTTP Response
+        [Fact]
+        public void GetCommandById_Returns200OK_WhenValidIDProvided()
+        {
+            //
+            mockRepo
+                .Setup(repo => repo.GetCommandById(1))
+                .Returns(new Command {
+                    Id = 1,
+                    HowTo = "mock",
+                    Platform = "Mock",
+                    CommandLine = "Mock"
+                });
+
+            var controller = new CommandsController(mockRepo.Object, mapper);
+
+            //
+            var result = controller.GetCommandById(1);
+
+            //
+            Assert.IsType<OkObjectResult>(result.Result);
+        }
+
+        //Check 200 OK HTTP Response
+        //Check the Correct Object Type Returned
+        [Fact]
+        public void GetCommandById_Return200OK_WhenValidIDProvided()
+        {
+            mockRepo
+                .Setup(repo => repo.GetCommandById(1))
+                .Returns(new Command {
+                    Id = 1,
+                    HowTo = "mock",
+                    Platform = "Mock",
+                    CommandLine = "Mock"
+                });
+            var controller = new CommandsController(mockRepo.Object, mapper);
+
+            //
+            var result = controller.GetCommandById(1);
+
+            //
+            Assert.IsType<ActionResult<CommandReadDto>> (result);
+        }
+
+        //Check the Correct Object Type Returned
+        //Test 3.1 Check if the correct object type is returned
+        [Fact]
+        public void CreateCommand_ReturnsCorrectResourceType_WhenValidObjectSubmitted()
+        {
+            mockRepo
+                .Setup(repo => repo.GetCommandById(1))
+                .Returns(new Command {
+                    Id = 1,
+                    HowTo = "mock",
+                    Platform = "Mock",
+                    CommandLine = "Mock"
+                });
+
+            var controller = new CommandsController(mockRepo.Object, mapper);
+
+            //
+            var result = controller.CreateCommand(new CommandCreateDto { });
+
+            //
+            Assert.IsType<ActionResult<CommandReadDto>> (result);
+        }
+
+        //Test 3.1 Check if the correct object type is returned
+        //Test 3.2 Check 201 HTTP RESPONSE
+        [Fact]
+        public void CreateCommand_Returns201Created_WhenValidObjectSubmitted()
+        {
+            mockRepo
+                .Setup(repo => repo.GetCommandById(1))
+                .Returns(new Command {
+                    Id = 1,
+                    HowTo = "mock",
+                    Platform = "Mock",
+                    CommandLine = "Mock"
+                });
+            var controller = new CommandsController(mockRepo.Object, mapper);
+
+            //
+            var result = controller.CreateCommand(new CommandCreateDto { });
+
+            //
+            Assert.IsType<CreatedAtRouteResult>(result.Result);
+        }
+
+        //Test 3.2 Check 201 HTTP RESPONSE
         private List<Command> GetCommands(int num)
         {
             var commands = new List<Command>();
