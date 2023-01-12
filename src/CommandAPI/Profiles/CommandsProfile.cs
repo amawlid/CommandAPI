@@ -4,15 +4,17 @@ using CommandAPI.Models;
 
 namespace CommandAPI.Profiles
 {
-        public class CommandsProfile : Profile
+    public class CommandsProfile : Profile
+    {
+        public CommandsProfile()
         {
-            public CommandsProfile()
-            {
-                CreateMap<Command, CommandReadDto>();
-                
-                CreateMap<CommandCreateDto, Command>();
+            CreateMap<Command, CommandReadDto>();
 
-                CreateMap<CommandUpdateDto, Command>();
-            }
+            CreateMap<CommandCreateDto, Command>();
+
+            CreateMap<CommandUpdateDto, Command>();
+
+            CreateMap<Command, CommandUpdateDto>();
         }
+    }
 }
