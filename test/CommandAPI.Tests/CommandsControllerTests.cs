@@ -208,6 +208,100 @@ namespace CommandAPI.ControllerTests
         }
 
         //Test 3.2 Check 201 HTTP RESPONSE
+        //Test 4.1 Check 204 HTTP Respons
+        [Fact]
+        public void UpdateCommand_Returns204NoContent_WhenValidObjectSubmitted()
+        {
+            mockRepo
+                .Setup(repo => repo.GetCommandById(1))
+                .Returns(new Command {
+                    Id = 1,
+                    HowTo = "mock",
+                    Platform = "Mock",
+                    CommandLine = "Mock"
+                });
+            var controller = new CommandsController(mockRepo.Object, mapper);
+
+            //
+            var result = controller.UpdateCommand(1, new CommandUpdateDto { });
+
+            //
+            Assert.IsType<NoContentResult> (result);
+        }
+
+        //Test 4.1 Check 204 HTTP Respons
+        //Test 4.2 Check 404 HTTP Respons
+        [Fact]
+        public void UpdateCommand_Returns404NotFound_WhenNonExistentResourceIDSubmitted()
+        {
+            mockRepo.Setup(repo => repo.GetCommandById(1)).Returns(() => null);
+
+            var controller = new CommandsController(mockRepo.Object, mapper);
+
+            //
+            var result = controller.UpdateCommand(0, new CommandUpdateDto { });
+
+            //
+            Assert.IsType<NotFoundResult> (result);
+        }
+
+        //Test 4.2 Check 404 HTTP ResponsE
+        //Test 5.1 Check 404 HTTP Response
+        [Fact]
+        public void PartialCommandUpdate_Returns404NotFound_WhenNonExistentResourceIDSubmitted()
+        {
+            mockRepo.Setup(repo => repo.GetCommandById(1)).Returns(() => null);
+            var controller = new CommandsController(mockRepo.Object, mapper);
+
+            //
+            var result =
+                controller
+                    .PartialCommandUpdate(0,
+                    new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument<CommandUpdateDto
+                    > { });
+
+            //
+            Assert.IsType<NotFoundResult> (result);
+        }
+
+        //Test 5.1 Check 404 HTTP Response
+        //Test .61 Check 404 HTTP Response DeleteCommand Unit tests
+        [Fact]
+        public void DeleteCommand_Returns204NoContent_WhenValidResourceIDSubmitted()
+        {
+            mockRepo
+                .Setup(repo => repo.GetCommandById(1))
+                .Returns(new Command {
+                    Id = 1,
+                    HowTo = "mock",
+                    Platform = "Mock",
+                    CommandLine = "Mock"
+                });
+            var controller = new CommandsController(mockRepo.Object, mapper);
+
+            //
+            var result = controller.DeleteCommand(1);
+
+            //
+            Assert.IsType<NoContentResult> (result);
+        }
+
+        //Test 6.1 Check 404 HTTP Response DeleteCommand Unit tests
+        //Test 6.2 Check 404 HTTP response not found
+        [Fact]
+        public void DeleteCommand_Returns404NotFound_WhenNonExistentResourceIDSubmitted()
+        {
+            mockRepo.Setup(repo => repo.GetCommandById(1)).Returns(() => null);
+            var controller = new CommandsController(mockRepo.Object, mapper);
+
+            //
+            var result = controller.DeleteCommand(1);
+
+            //
+            Assert.IsType<NotFoundResult> (result);
+        }
+
+        //Test 6.2 Check 404 HTTP response not found
         private List<Command> GetCommands(int num)
         {
             var commands = new List<Command>();
