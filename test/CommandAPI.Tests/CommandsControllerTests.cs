@@ -83,6 +83,40 @@ namespace CommandAPI.ControllerTests
         }
 
         //Return http response 200
+        //Check correct Object Type Returned
+        [Fact]
+        public void GetAllCommands_ReturnCorrectType_WhenDBHasOneResource()
+        {
+            //Arrange
+            mockRepo
+                .Setup(repo => repo.GetAllCommands())
+                .Returns(GetCommands(1));
+            var controller = new CommandsController(mockRepo.Object, mapper);
+
+            //Act
+            var result = controller.GetAllCommands();
+
+            //Assert
+            Assert.IsType<ActionResult<IEnumerable<CommandReadDto>>> (result);
+        }
+
+        //Check correct Object Type Returned
+        //Check 404 Not Found HTTP Response
+        [Fact]
+        public void GetCommandById_Returns404NotFound_WhenNonExistentIdProvided()
+        {
+            //Arrange
+            mockRepo.Setup(repo => repo.GetCommandById(0)).Returns(() => null);
+            var controller = new CommandsController(mockRepo.Object, mapper);
+
+            //Act
+            var result = controller.GetCommandById(1);
+
+            //Assert
+            Assert.IsType<NotFoundResult>(result.Result);
+        }
+
+        //Check 404 Not Found HTTP Response
         private List<Command> GetCommands(int num)
         {
             var commands = new List<Command>();
