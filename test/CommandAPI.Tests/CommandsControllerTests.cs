@@ -61,8 +61,7 @@ namespace CommandAPI.ControllerTests
             var result = controller.GetAllCommands();
 
             //Assert
-            // Assert.IsType<OkObjectResult>(result.Result);
-            Assert.IsType<OkObjectResult> (result);
+            Assert.IsType<OkObjectResult>(result.Result);
         }
 
         // Test 1.1 200 OK HTTP Response when DB Empty
