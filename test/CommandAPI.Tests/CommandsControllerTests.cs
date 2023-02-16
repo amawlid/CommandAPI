@@ -291,11 +291,11 @@ namespace CommandAPI.ControllerTests
         [Fact]
         public void DeleteCommand_Returns404NotFound_WhenNonExistentResourceIDSubmitted()
         {
-            mockRepo.Setup(repo => repo.GetCommandById(1)).Returns(() => null);
+            mockRepo.Setup(repo => repo.GetCommandById(0)).Returns(() => null);
             var controller = new CommandsController(mockRepo.Object, mapper);
 
             //
-            var result = controller.DeleteCommand(1);
+            var result = controller.DeleteCommand(0);
 
             //
             Assert.IsType<NotFoundResult> (result);
